@@ -1,11 +1,12 @@
-import { useCallback, useState } from "react";
-import { createContainer } from "unstated-next";
+import { useCallback, useReducer } from 'react';
+import { createContainer } from 'unstated-next';
+import reducer from './reducer';
 
 const useCounter = (initialState = 0) => {
-	const [count, setCount] = useState(initialState);
-	const decrement = useCallback(() => setCount((prevCount) => prevCount - 1), []);
-	const increment = useCallback(() => setCount((prevCount) => prevCount + 1), []);
-	return { count, decrement, increment };
+	const [state, dispatch] = useReducer(reducer, { count: initialState });
+	const decrement = useCallback(() => dispatch({type: 'decrement'}), []);
+	const increment = useCallback(() => dispatch({type: 'increment'}), []);
+	return { count: state.count, decrement, increment };
 };
 
 export const CounterContainer = createContainer(useCounter);
