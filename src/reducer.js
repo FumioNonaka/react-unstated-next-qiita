@@ -1,3 +1,6 @@
+import { useReducer } from 'react';
+import { createContainer } from 'unstated-next';
+
 const reducer = (state, action) => {
 	switch (action.type) {
 			case 'decrement':
@@ -8,4 +11,14 @@ const reducer = (state, action) => {
 					return state;
 	}
 };
-export default reducer;
+
+const initialState = { count: 0 };
+const useCounterReducer = () => {
+	const [state, dispatch] = useReducer(reducer, initialState);
+	return {
+		dispatch,
+		count: state.count
+	};
+}
+
+export default createContainer(() => useCounterReducer()); 
